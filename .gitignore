@@ -1,0 +1,16 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Arquivos DXF gerados como saída
+teste.dxf
+ACA01C4.dxf
+Pontos_passagem_validado.dxf
+
+# Arquivos de entrada de teste/amostra
+teste.gpx
+ACA01C4.kml
+
+# Notas internas
+Conversa codex 23.03.txt
