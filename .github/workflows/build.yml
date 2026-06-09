@@ -1,0 +1,66 @@
+name: Build e Release
+
+on:
+  push:
+    tags:
+      - "v*"          # Dispara em qualquer tag do tipo v1.0.0, v2.1.3, etc.
+
+permissions:
+  contents: write     # necessário para criar GitHub Releases
+
+jobs:
+  build-windows:
+    name: Build GeoTools.exe (Windows)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependências
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Gerar GeoTools.exe
+        run: pyinstaller GeoTools.spec --clean --noconfirm
+
+      - name: Verificar executável gerado
+        run: |
+          if (Test-Path "dist\GeoTools.exe") {
+            $size = (Get-Item "dist\GeoTools.exe").Length / 1MB
+            Write-Host "GeoTools.exe gerado com sucesso ($([math]::Round($size,1)) MB)"
+          } else {
+            Write-Error "GeoTools.exe não encontrado!"
+            exit 1
+          }
+
+      - name: Publicar GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "GeoTools ${{ github.ref_name }}"
+          body: |
+            ## GeoTools ${{ github.ref_name }}
+
+            Executável standalone para Windows — sem necessidade de instalar Python.
+
+            ### Download
+            - **GeoTools.exe** — execute diretamente no terminal ou com duplo clique
+
+            ### Uso rápido
+            ```
+            GeoTools.exe
+            ```
+            Ou com arquivo GPX diretamente:
+            ```
+            GeoTools.exe "waypoints.gpx"
+            ```
+          files: dist/GeoTools.exe
+          draft: false
+          prerelease: false

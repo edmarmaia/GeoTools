@@ -16,6 +16,7 @@ import json
 import math
 import re
 import socket
+import sys
 import time
 from dataclasses import dataclass
 from datetime import datetime
@@ -47,7 +48,12 @@ WGS84_E2 = WGS84_F * (2 - WGS84_F)
 WGS84_EP2 = WGS84_E2 / (1 - WGS84_E2)
 UTM_K0 = 0.9996
 DXF_VERSION = "AC1027"
-SCRIPT_DIR = Path(__file__).resolve().parent
+# Quando empacotado pelo PyInstaller (--onefile ou --onedir), os arquivos de
+# dados são extraídos em sys._MEIPASS; caso contrário usa o diretório do script.
+if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):
+    SCRIPT_DIR = Path(sys._MEIPASS)
+else:
+    SCRIPT_DIR = Path(__file__).resolve().parent
 
 DEFAULT_LAYER = "POSTE"
 ROAD_LAYER = "VIA"

@@ -14,3 +14,8 @@ ACA01C4.kml
 
 # Notas internas
 Conversa codex 23.03.txt
+
+# Artefatos de build do PyInstaller
+dist/
+build/
+*.spec.bak
