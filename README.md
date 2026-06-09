@@ -2,6 +2,29 @@
 
 Aplicativo para converter waypoints `.gpx` (Garmin) e arquivos `.kml` em um `.dxf` georreferenciado em UTM, com blocos AutoCAD (`POE`, `PR`, `PI`, `PS`) e rótulos de texto.
 
+## Instalação (Windows — sem Python)
+
+Execute o comando abaixo no **PowerShell** para baixar e instalar automaticamente:
+
+```powershell
+irm https://raw.githubusercontent.com/edmarmaia/GeoTools/main/install.ps1 | iex
+```
+
+O instalador:
+- Baixa o executável mais recente do GitHub
+- Instala em `%LOCALAPPDATA%\GeoTools\`
+- Adiciona ao PATH do usuário (permanente)
+
+Após a instalação, abra um novo terminal e execute:
+
+```powershell
+GeoTools
+```
+
+Para desinstalar, basta apagar a pasta `%LOCALAPPDATA%\GeoTools\` e remover o caminho do PATH.
+
+---
+
 ## Arquivos
 
 - `gpx2dxf.py`: script principal
